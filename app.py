@@ -131,11 +131,13 @@ def phone_tracker():
     except Exception as e:
         return render_template('results.html', data={"error": str(e)})
 
+
 @app.route('/username_tracker', methods=['POST'])
 def username_tracker():
     username = request.form.get('username')
     if not username:
         return render_template('results.html', data={"error": "Username is required"})
+    
     try:
         results = {}
         social_media = [
@@ -145,30 +147,32 @@ def username_tracker():
             {"url": "https://www.linkedin.com/in/{}", "name": "LinkedIn"},
             {"url": "https://www.github.com/{}", "name": "GitHub"},
             {"url": "https://www.pinterest.com/{}", "name": "Pinterest"},
-            {"url": "https://www.tumblr.com/{}", "name": "Tumblr"},
             {"url": "https://www.youtube.com/{}", "name": "Youtube"},
-            {"url": "https://soundcloud.com/{}", "name": "SoundCloud"},
             {"url": "https://www.snapchat.com/add/{}", "name": "Snapchat"},
             {"url": "https://www.tiktok.com/@{}", "name": "TikTok"},
-            {"url": "https://www.behance.net/{}", "name": "Behance"},
             {"url": "https://www.medium.com/@{}", "name": "Medium"},
-            {"url": "https://www.quora.com/profile/{}", "name": "Quora"},
             {"url": "https://www.twitch.tv/{}", "name": "Twitch"},
-            {"url": "https://www.snapchat.com/add/{}", "name": "Snapchat"},
             {"url": "https://www.telegram.me/{}", "name": "Telegram"},
-            
-
-            
-            # Add more social media URLs here...
         ]
+        
         for site in social_media:
             url = site['url'].format(username)
-            response = requests.get(url)
-            results[site['name']] = url if response.status_code == 200 else "Not Found"
+            try:
+                response = requests.get(url, timeout=5)  # Add a timeout to prevent hanging
+                if response.status_code == 200:
+                    results[site['name']] = url
+                elif response.status_code == 404:
+                    results[site['name']] = "Username Not Found"
+                else:
+                    results[site['name']] = f"Error: {response.status_code}"
+            except requests.exceptions.Timeout:
+                results[site['name']] = "Request Timed Out"
+            except requests.exceptions.RequestException as e:
+                results[site['name']] = f"Error: {str(e)}"
+
         return render_template('results.html', data=results)
+    
     except Exception as e:
         return render_template('results.html', data={"error": str(e)})
-
-
 if __name__ == '__main__':
     app.run()
