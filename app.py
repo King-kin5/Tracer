@@ -4,6 +4,7 @@ import phonenumbers
 from phonenumbers import carrier, geocoder, timezone
 import logging
 import os
+from safe import check_link_safety
 app = Flask(__name__,template_folder="templates",static_folder="static")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -63,6 +64,18 @@ def debug_info():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/check_link', methods=['POST'])
+def checklink():
+    url = request.form.get('url')  # Get the URL from the form submission
+    if not url:
+        return render_template('result.html', data={"error": "URL is required"})
+    try:
+        is_safe, message, results = check_link_safety(url)
+        # Combine results with additional metadata
+        results.update({"is_safe": is_safe, "message": message})
+        return render_template('result.html', data=results, results=results)
+    except Exception as e:
+        return render_template('result.html', data={"error": str(e)}, results=None)
 
 
 
