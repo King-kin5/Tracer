@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1e1e1e;
+            color: #00ff00;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 80%;
+            max-width: 800px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        .site-name {
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .no-data {
+            color: #ff4444;
+        }
+        .back-link {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #00ff00;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .back-link:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Results</h1>
+    {% if data %}
+        <ul>
+        {% for key, value in data.items() %}
+            <li>
+                <span class="site-name">{{ key }}:</span>
+                {% if value != "Not Found" %}
+                    <a href="{{ value }}" target="_blank">{{ value }}</a>
+                {% else %}
+                    <span class="no-data">Not Found</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No data to display.</p>
+    {% endif %}
+    <a href="/home" class="back-link">Go Back</a>
+</body>
+</html>

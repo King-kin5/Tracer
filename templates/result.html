@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Checker Results</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    
+    <style>
+        /* General Page Styles */
+body {
+    font-family: "Courier New", Courier, monospace;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1e1e1e;
+    color: #00ff00;
+}
+
+/* Header Styles */
+h1 {
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
+/* Results Container */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 90%;
+    max-width: 800px;
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+}
+
+/* Individual Result Item */
+li {
+    margin: 15px 0;
+    padding: 10px;
+    background: #333333;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+li:hover {
+    background: #444444;
+}
+
+/* Links */
+a {
+    color: #00ff00;
+    text-decoration: none;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+/* Status Indicators */
+.site-name {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.no-data {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.valid {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.invalid {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+/* Back Link Button */
+.back-link {
+    margin-top: 20px;
+    text-decoration: none;
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid rgba(0, 255, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #202020;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-link:hover {
+    color: #ffffff;
+    background: rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+ 
+    </style>
+</head>
+<body>
+    <h1>Link Checker Results</h1>
+    <div class="link-checker">
+        <h2>Results</h2>
+        {% if results %}
+            <ul>
+            {% for url, status in results.items() %}
+                <li>
+                    <span class="site-name">{{ url }}:</span>
+                    {% if status == "Valid" %}
+                        <span class="valid">{{ status }}</span>
+                    {% else %}
+                        <span class="invalid">{{ status }}</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+            {% if data.is_safe is not none %}
+                <p><strong>Link Safety:</strong> 
+                <span class="{{ 'valid' if data.is_safe else 'invalid' }}">{{ "Safe" if data.is_safe else "Not Safe" }}</span></p>
+            {% endif %}
+        {% else %}
+            <p>No link checker results to display.</p>
+        {% endif %}
+    </div>
+    <a href="/home" class="back-link">Go Back</a>
+</body>
+</html>

@@ -1,0 +1,6 @@
+phonenumbers==8.13.42
+Flask==3.0.3
+requests==2.32.3
+gunicorn==23.0.0
+python-dotenv==0.16.0
+urllib3==2.2.1
