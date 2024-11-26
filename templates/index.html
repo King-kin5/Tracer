@@ -165,17 +165,6 @@
     </style>
     <script>
          document.addEventListener("DOMContentLoaded", () => {
-            // Username Validation
-            const usernameForm = document.querySelector('form[action="/username_tracker"]');
-                usernameForm.addEventListener("submit", (e) => {
-                    const username = document.getElementById("username").value.trim();
-                    const usernameRegex = /^[a-zA-Z0-9_@]{3,30}$/;
-                    if (!usernameRegex.test(username)) {
-                        e.preventDefault();
-                        alert("Username must be 3-30 characters long and can only contain letters, numbers, underscores, and @.");
-                    }
-                });
-    
                 // Phone Number Validation
                 const phoneForm = document.querySelector('form[action="/phone_tracker"]');
                 phoneForm.addEventListener("submit", (e) => {
