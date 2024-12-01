@@ -1,6 +1,5 @@
 
-
-span style="font-size: 3em; color: #FF4081;">Tracer</span>
+Tracer
 
 Tracer is a web-based application designed to track and manage phone numbers, check username availability across platforms, and verify the safety of URLs efficiently. Built using Flask, it offers a robust and scalable backend, providing real-time data through an intuitive interface.
 
@@ -67,7 +66,7 @@ pip install -r requirements.txt
 
 ---
 
-U
+
 
 1. Run the application locally:
 
